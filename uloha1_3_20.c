@@ -93,9 +93,22 @@
  		}
  	}
 	
-	for (j=0;j<n;j++){
-		printf("%d ", pole_zoradenie[j]);
+	puts("Nove poradie:");
+	for (i=0;i<n;i++){
+		printf("%d ", pole_zoradenie[i]);			//pre kontrolu mi vypise, ake nastanu posuny
+		helppole[i]=l[i];							//skopiruje povodne pole - priprava na permutaciu
 	}
+	
+	
+	for(i=0;i<n;i++){
+		p[pole_zoradenie[i]-1]=helppole[i];
+	}
+	puts("");
+	puts("Nova permutacia:");
+	for(i=0;i<n;i++){
+		printf("%d ",p[i]);
+	}
+	
  }
 	
 	int main(){
