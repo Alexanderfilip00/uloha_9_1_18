@@ -1,52 +1,72 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <math.h>
-	#define n 40		//sem zadam sam hodnotu
+
 	
 	void Napln(int p[], int d){
 		int i;
+		puts("Generujem zaciatocne poradie:");
 		for(i=0;i<=d;i++){
 			p[i]=rand()%100;			//generacia nahodnych cisel [0,99], aby som tam nemal prilis velke hodnoty
+			printf("%d ", p[i]);
 		}
 	}
 	
  char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
- 	int helpole[n]={-1};
- 	int i,temp_a,temp_zaciatok,temp_koniec,abs_pocitadlo,polovica_n;
+ 	
+ 	int i=0, n=0;
+	while (l[i]==-1){			//zisti dlzku pola
+		n++;
+		i++;
+		} 
+	 	
+ 	int temp_a,temp_zaciatok,temp_koniec,abs_pocitadlo;
  	int pocitadlo=-1;
  	
- 	for(i=p;i<=p+n;i+4){		//i+4, pretoze sa posuvam po 4 bytoch kvoli integerom
- 		
-		if (n%2==0){
-			polovica_n= n/2;
-		} 
-		else{
-			polovica_n= n+1/2;
-		}
-		
- 		++pocitadlo;
- 		abs_pocitadlo = polovica_n - abs(n/2 - pocitadlo) ;		//abs_pocitadlo rata vzdialenost od kraja... ak to je koniec, ma zaporne hodnoty
- 		if (pocitadlo>n/2)	abs_pocitadlo*= -1;
- 		if (dist>=n || pocitadlo>=dist)	abs_pocitadlo=0;				//ak by sa hodnoty mohli posuvat po celom poli, nerob zmeny
- 		
- 		temp_a = rand()%((2*dist - (dist-pocitadlo) )+1)-(pocitadlo);
- 		printf("%d . hodnota: %d - patri medzi zaciatocne. \n",pocitadlo,temp_a);
- 			
- 		if (helpole[temp_a]==-1){
-			helpole[temp_a]=temp_a;
-			}
-		else if(temp_a==(i-(i-p))){
-			}	
- 			
-		 	}
+ 	
+ 	int min, max, odpredu=0, odzadu=n-1;	
+	int helppole[n]={0};
+ 	int pole_zoradenie[n]
+	int gen;
+	
+	printf("Pole ma dlzku: %d \n", n);
+	Napln(p,n);	
+ 	
+ 	while (done==0){
+	 	for(i=0;i<n;i){			//prechadzam po novom poli, kde bude presuvanie
+	 		
+	 		if(dist>n) dist=n;
+	 		if(dist>odpredu) min=0;
+	 		else min= odpredu-dist;
+	 		if(dist>odzadu) max=n;
+	 		else max= odpredu+dist;
+	 		
+	 		if(max-min != 0){
+		 		gen= rand()%(max-min) - (odpredu-min);
+		 		
+		 		if (helppole[gen]==0){
+		 			helppole[gen]=1;
+		 			odpredu++;
+					odzadu--;
+				 	}
+				 
+		 		else if (gen==max) max--;
+		 		else if (gen==min) min++;
+		 		
+		 		
+		 		
+				
+			else break;
+	 		}
+ 	}
+ 	}
 
  }
 	
 	int main(){
 		srand(time(NULL));
 		int dist=5;		//sem zadam sam hodnotu  
-		int l[n];
-		int *p=l;
-		Napln(p,n);		
+		int l[n]={-1};
+		int *p=l;	
 		nahodna_permutacia_s_obmedzenim_vzdialenosti(p, l, dist);
 	}
