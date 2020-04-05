@@ -1,66 +1,101 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <math.h>
-
+	#define n 50
 	
 	void Napln(int p[], int d){
 		int i;
 		puts("Generujem zaciatocne poradie:");
 		for(i=0;i<=d;i++){
 			p[i]=rand()%100;			//generacia nahodnych cisel [0,99], aby som tam nemal prilis velke hodnoty
-			printf("%d ", p[i]);
+			printf("%d ", p[i]);	
 		}
+		printf("\n \n");
 	}
 	
- char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
+ char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l[], int dist){
  	
- 	int i=0, n=0;
-	while (l[i]==-1){			//zisti dlzku pola
-		n++;
-		i++;
-		} 
-	 	
- 	int temp_a,temp_zaciatok,temp_koniec,abs_pocitadlo;
- 	int pocitadlo=-1;
- 	
- 	
- 	int min, max, odpredu=0, odzadu=n-1;	
-	int helppole[n]={0};
- 	int pole_zoradenie[n]
+	int i,j;	
+ 	int helppole[n]={0};
+ 	int pole_zoradenie[n]={0};
+	int pokracuj=0, done=0;
+	int min, max, odzadu=0;	
 	int gen;
+
+	Napln(p,n);			//naplnim povodne pole nahodnymi cislami
 	
-	printf("Pole ma dlzku: %d \n", n);
-	Napln(p,n);	
+	if(dist>n) dist=n;
  	
  	while (done==0){
-	 	for(i=0;i<n;i){			//prechadzam po novom poli, kde bude presuvanie
+ 		
+	 	for(i=0;i<n;i++){			//prechadzam po novom poli, kde bude presuvanie
+			
+	 		odzadu++;
+			if (i==n-1) {
+				done=1; 
+			}
+			
+			pokracuj=0;
 	 		
-	 		if(dist>n) dist=n;
-	 		if(dist>odpredu) min=0;
-	 		else min= odpredu-dist;
-	 		if(dist>odzadu) max=n;
-	 		else max= odpredu+dist;
+			//printf("Zacinam %d\n", i);			//
+			
+	 		if(i-dist<=0) min=0;
+	 		else min= i-dist;
+	 		if(i+dist>=n) max=n;
+	 		else max= i+dist;
 	 		
-	 		if(max-min != 0){
-		 		gen= rand()%(max-min) - (odpredu-min);
+	 		while(pokracuj==0){
+		 		gen= i + rand()%(max-min+1)- (i-min);	
+				//printf("Posunutie vzad: %d \n", i-min);			//
+		 		//printf("             Gen = %d \n", gen);			//
+		 		//printf("             Rozsah = %d \n", max-min+1);			//
 		 		
-		 		if (helppole[gen]==0){
+		 		if (helppole[gen]==0){			//kontrolujem, ci nie je poloha obsadena
 		 			helppole[gen]=1;
-		 			odpredu++;
-					odzadu--;
+		 			pole_zoradenie[i]=gen;			//napisem, kam sa ma dana poloha posunut
+					pokracuj=1;
+					//printf("Podarilo sa %d \n", i);		//
+					
 				 	}
 				 
-		 		else if (gen==max) max--;
-		 		else if (gen==min) min++;
-		 		
-		 		
-		 		
+		 		else if (gen==max) {
+					//puts("gen = max");			//
+					max--; 
+					}
+		 		else if (gen==min) {
+		 			//puts("gen = min");			//
+				 	min++;
+				 	}
+				if(max-min == 0) {						//ak dojdu moznosti, resetuj sa
+					//for(j=0;j<n;j++)	printf("%d ",helppole[j]);				
+					
+					//printf("\n\t\t\t\t Podarilo sa: %d \n",i);			//
+					for(j=0;j<n;j++) helppole[j]=0;
+					odzadu=-1;
+					pokracuj=0;
+					i=0; 
+					//puts("\t\t\tUplne odznova");					//
+					break;
+				}
 				
-			else break;
 	 		}
+	 		
+	 		if(i>dist+1 && helppole[i-dist-1]==0){				//kontrola dozadu - ci to nerata zbytocne
+				//for(j=0;j<n;j++)	printf("%d ",helppole[j]);				
+				//printf("\n\t\t\t\t Podarilo sa: %d \n",i);			//
+				for(j=0;j<n;j++) helppole[j]=0;
+				odzadu=-1;
+				pokracuj=0;
+				i=0; 
+				//puts("\t\t\t\t\t\tUplne odznova / kvoli zabudnutiu");					//
+				break;						
+	 		}
+ 		}
  	}
- 	}
-
+	
+	for (j=0;j<n;j++){
+		printf("%d ", pole_zoradenie[j]);
+	}
  }
 	
 	int main(){
