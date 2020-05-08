@@ -41,10 +41,15 @@ char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
 			
 			pokracuj=0;
 			
-	 		if(i-dist<=0) min=0;
-	 		else min= i-dist;
-	 		if(i+dist>=l) max=l;
-	 		else max= i+dist;
+	 		if(i-dist<=0)
+                min=0;
+	 		else
+                min= i-dist;
+
+	 		if(i+dist>=l)
+                max=l;
+	 		else
+                max= i+dist;
 	 		
 	 		while(pokracuj==0){
 		 		gen= i + rand()%(max-min+1)- (i-min);	
@@ -58,16 +63,16 @@ char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
 					pokracuj=1;
 					//printf("Podarilo sa %d \n", i);		//
 					
-				 	}
-				 
+				}
 		 		else if (gen==max) {
 					//puts("gen = max");			//
 					max--; 
-					}
+				}
 		 		else if (gen==min) {
 		 			//puts("gen = min");			//
 				 	min++;
-				 	}
+				}
+
 				if(max-min == 0) {						//ak dojdu moznosti, resetuj sa
 					//for(j=0;j<l;j++)	printf("%d ",helppole[j]);				
 					
@@ -89,6 +94,7 @@ char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
 				//printf("\n\t\t\t\t Podarilo sa: %d \n",i);			//
 				for(j=0;j<l;j++)
                     helppole[j]=0;
+
 				odzadu=-1;
 				pokracuj=0;
 				i=0; 
