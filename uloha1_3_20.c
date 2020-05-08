@@ -17,14 +17,14 @@ char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
 	int i,j;
 	int *helppole = malloc(sizeof(int)*l);
  	int *pole_zoradenie = malloc(sizeof(int)*l);
+	int pokracuj=0, done=0;
+	int min, max, odzadu=0;	
+	int gen;
  	
     for(i=0;i<l;i++){
         helppole[i]=0;
         pole_zoradenie[i]=0;
     }
-	int pokracuj=0, done=0;
-	int min, max, odzadu=0;	
-	int gen;
 
 	Napln(p,l);			//naplnim povodne pole nahodnymi cislami
 	
@@ -116,15 +116,16 @@ char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
 }
 	
 int main(){
-    srand(time(NULL));
     int i;
 	int dist=6;		//sem zadam sam hodnotu  
 	int n=50;
 	int *pole = malloc(sizeof(int)*n);
+	int *p = pole;	
+
+    srand(time(NULL));
 	for(i=0;i<n;i++)
         pole[i]=-1;
 		
 	//int pole[n]={-1};
-	int *p = pole;	
 	nahodna_permutacia_s_obmedzenim_vzdialenosti(p, n, dist);
 }
