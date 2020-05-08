@@ -1,27 +1,27 @@
-	#include <stdio.h>
-	#include <stdlib.h>
-	#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 	
-	void Napln(int p[], int d){
-		int i;
-		puts("Generujem zaciatocne poradie:");
-		for(i=0;i<d;i++){
-			p[i]=rand()%100;			//generacia nahodnych cisel [0,99], aby som tam nemal prilis velke hodnoty
-			printf("%2d ", p[i]);	
-		}
-		printf("\n \n");
+void Napln(int p[], int d){
+    int i;
+
+    puts("Generujem zaciatocne poradie:");
+	for(i=0;i<d;i++){
+	    p[i]=rand()%100;			//generacia nahodnych cisel [0,99], aby som tam nemal prilis velke hodnoty
+		printf("%2d ", p[i]);	
 	}
+	printf("\n \n");
+}
 	
- char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
- 	
+char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
 	int i,j;
 	int *helppole = malloc(sizeof(int)*l);
  	int *pole_zoradenie = malloc(sizeof(int)*l);
  	
- 	for(i=0;i<l;i++){
- 		helppole[i]=0;
- 		pole_zoradenie[i]=0;
-	 }
+    for(i=0;i<l;i++){
+        helppole[i]=0;
+        pole_zoradenie[i]=0;
+    }
 	int pokracuj=0, done=0;
 	int min, max, odzadu=0;	
 	int gen;
@@ -34,7 +34,7 @@
  		
 	 	for(i=0;i<l;i++){			//prechadzam po novom poli, kde bude presuvanie
 			
-	 		odzadu++;
+            odzadu++;
 			if (i==l-1) {
 				done=1; 
 			}
@@ -110,19 +110,20 @@
 	puts("Nova permutacia:");
 	for(i=0;i<l;i++){
 		printf("%2d ",p[i]);
-	}
+    }
 	
- }
+}
 	
-	int main(){
-		srand(time(NULL));
-		int i;
-		int dist=6;		//sem zadam sam hodnotu  
-		int n=50;
-		int *pole = malloc(sizeof(int)*n);
-		for(i=0;i<n;i++) pole[i]=-1;
+int main(){
+    srand(time(NULL));
+    int i;
+	int dist=6;		//sem zadam sam hodnotu  
+	int n=50;
+	int *pole = malloc(sizeof(int)*n);
+	for(i=0;i<n;i++)
+        pole[i]=-1;
 		
-		//int pole[n]={-1};
-		int *p = pole;	
-		nahodna_permutacia_s_obmedzenim_vzdialenosti(p, n, dist);
-	}
+	//int pole[n]={-1};
+	int *p = pole;	
+	nahodna_permutacia_s_obmedzenim_vzdialenosti(p, n, dist);
+}
