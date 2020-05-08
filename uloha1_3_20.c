@@ -28,16 +28,16 @@ char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
 
 	Napln(p,l);			//naplnim povodne pole nahodnymi cislami
 	
-	if(dist>l) dist=l;
+	if(dist>l)
+        dist=l;
  	
  	while (done==0){
  		
 	 	for(i=0;i<l;i++){			//prechadzam po novom poli, kde bude presuvanie
 			
             odzadu++;
-			if (i==l-1) {
+			if (i==l-1)
 				done=1; 
-			}
 			
 			pokracuj=0;
 			
@@ -72,7 +72,8 @@ char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
 					//for(j=0;j<l;j++)	printf("%d ",helppole[j]);				
 					
 					//printf("\n\t\t\t\t Podarilo sa: %d \n",i);			//
-					for(j=0;j<l;j++) helppole[j]=0;
+					for(j=0;j<l;j++)
+                        helppole[j]=0;
 					odzadu=-1;
 					pokracuj=0;
 					done=0;
@@ -86,7 +87,8 @@ char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
 	 		if(i>dist+1 && helppole[i-dist-1]==0){				//kontrola dozadu - ci to nerata zbytocne
 				//for(j=0;j<l;j++)	printf("%d ",helppole[j]);				
 				//printf("\n\t\t\t\t Podarilo sa: %d \n",i);			//
-				for(j=0;j<l;j++) helppole[j]=0;
+				for(j=0;j<l;j++)
+                    helppole[j]=0;
 				odzadu=-1;
 				pokracuj=0;
 				i=0; 
@@ -108,9 +110,8 @@ char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
 	}
 	puts("");
 	puts("Nova permutacia:");
-	for(i=0;i<l;i++){
+	for(i=0;i<l;i++)
 		printf("%2d ",p[i]);
-    }
 	
 }
 	
