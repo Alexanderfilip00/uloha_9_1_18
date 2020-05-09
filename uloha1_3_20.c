@@ -5,12 +5,9 @@
 void Napln(int p[], int d){
     int i;
 
-    puts("Generujem zaciatocne poradie:");
 	for(i=0;i<d;i++){
-	    p[i]=rand()%100;			//generacia nahodnych cisel [0,99], aby som tam nemal prilis velke hodnoty
-		printf("%2d ", p[i]);	
+	    p[i]=rand()%100;			//generacia nahodnych cisel [0,99], aby som tam nemal prilis velke hodnoty	
 	}
-	printf("\n \n");
 }
 	
 char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
@@ -26,8 +23,7 @@ char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
         pole_zoradenie[i]=0;
     }
 
-	Napln(p,l);			//naplnim povodne pole nahodnymi cislami
-	
+
 	if(dist>l)
         dist=l;
  	
@@ -98,15 +94,13 @@ char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
 				odzadu=-1;
 				pokracuj=0;
 				i=0; 
-				//puts("\t\t\t\t\t\tUplne odznova / kvoli zabudnutiu");					//
 				break;						
 	 		}
  		}
  	}
 	
-	puts("Nove poradie:");
 	for (i=0;i<l;i++){
-		printf("%2d ", pole_zoradenie[i]);			//pre kontrolu mi vypise, ake nastanu posuny
+		//printf("%2d ", pole_zoradenie[i]);			//pre kontrolu mi vypise, ake nastanu posuny
 		helppole[i]=p[i];							//skopiruje povodne pole - priprava na permutaciu
 	}
 	
@@ -114,11 +108,9 @@ char nahodna_permutacia_s_obmedzenim_vzdialenosti(int *p, int l, int dist){
 	for(i=0;i<l;i++){
 		p[pole_zoradenie[i]]=helppole[i];
 	}
-	puts("");
-	puts("Nova permutacia:");
-	for(i=0;i<l;i++)
-		printf("%2d ",p[i]);
-	
+
+	free(pole_zoradenie);
+	free(helppole);
 }
 	
 int main(){
@@ -129,9 +121,15 @@ int main(){
 	int *p = pole;	
 
     srand(time(NULL));
+	Napln(p,n);			//naplnim povodne pole nahodnymi cislami
+
+	puts("Povodna permutacia:");
 	for(i=0;i<n;i++)
-        pole[i]=-1;
+	printf("%d ", pole[i]);
 		
-	//int pole[n]={-1};
 	nahodna_permutacia_s_obmedzenim_vzdialenosti(p, n, dist);
+
+	puts("\nNova permutacia:");
+	for(i=0;i<n;i++)
+    printf("%d ", pole[i]);
 }
