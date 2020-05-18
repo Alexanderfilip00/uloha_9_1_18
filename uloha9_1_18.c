@@ -128,13 +128,46 @@ void mat_random(MAT *mat){
 
 }
 
+char mat_multiply_strassen(MAT *a, MAT *b, MAT *c){
+	int i;
+	float p[8]={0};
+	float velkost = (float)a->rows;
+	unsigned int n=0;			//cislo n hovori o komplexnosti strassenovho algoritmu
+
+	while(velkost != 1.0 || n==0){						//test, ci je matica velkosti 2^n
+		velkost /= 2.0;
+		n++;
+		if((velkost - (int)velkost) != .0){
+			printf("CHYBA: Nespravna velkost, nie je to 2^n!");
+			return 0;
+		}
+	}
+	
+	velkost = (float)a->cols;						//test, ci su vsetky matice rovnakej velkosti
+	if((velkost != a->rows) || (velkost != b->cols) || (velkost != b->rows) || (velkost != c->cols) || (velkost != c->rows)){
+		printf("CHYBA: Matice maju roznu velkost!");
+		return 0;
+	}
+	printf("n=%d\n\n",n);
+
+	for(i=0;i<n;i++){
+	
+	
+	}
+}
+
+
 //...............................................................................................
 
 int main(){
+	int a=2;
 	srand(time(NULL));
-	MAT *A = mat_create_with_type(4,4);
+	MAT *A = mat_create_with_type(a,a);
+	MAT *B = mat_create_with_type(a,a);
+	MAT *C = mat_create_with_type(a,a);
 	mat_random(A);
-	mat_print(A);
+	mat_random(B);
+	mat_multiply_strassen(A,B,C);
 
 
 	
