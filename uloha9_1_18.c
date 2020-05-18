@@ -87,16 +87,18 @@ void mat_unit(MAT *mat){
 
 char mat_save(MAT *mat, char *filename){
 	
-	int FILE = open(filename,O_CREAT | O_WRONLY | O_BINARY, S_IRUSR);
+	int FILE = open(filename, O_CREAT | O_TRUNC | O_WRONLY | O_BINARY, S_IRUSR | S_IWUSR);
 	if( FILE < 0){
+		printf("CHYBA.");
 		return 0;
-	}
-	
+	} 
+
 	write(FILE, "M", sizeof(char));
 	write(FILE, "1", sizeof(char));
+
 	write(FILE, &mat->rows, sizeof(unsigned int));
 	write(FILE, &mat->cols, sizeof(unsigned int));
-	write(FILE, &mat->elem, sizeof(float)*(mat->rows)*(mat->cols));
+	write(FILE, mat->elem, sizeof(float)*(mat->rows)*(mat->cols));
 	close(FILE);	
 }
 
@@ -113,7 +115,7 @@ void mat_print(MAT *mat){
 					printf("%5.2f ",ELEM(mat,i,j));
 			}
 		printf("\n");
-		}
+	}
 }
 
 void mat_random(MAT *mat){
@@ -130,14 +132,10 @@ void mat_random(MAT *mat){
 
 int main(){
 	srand(time(NULL));
-	MAT *A = mat_create_with_type(7,7);
-	
+	MAT *A = mat_create_with_type(4,4);
 	mat_random(A);
-	mat_save(A, "skuska1.bin");
 	mat_print(A);
-	printf("\n");
-	MAT *B = mat_create_by_file("skuska1.bin");
-	mat_print(B);
-	
+
+
 	
 }
