@@ -21,6 +21,11 @@ MAT *mat_create_with_type(unsigned int rows, unsigned int cols){
 	MAT *A;
 	A = (MAT*)malloc(sizeof(MAT));
 	
+	if(A==NULL){
+		free(A);
+		return NULL;
+	}
+	
 	float *pole;
 	pole = (float*)malloc(sizeof(float)*rows*cols);
 	
@@ -28,11 +33,6 @@ MAT *mat_create_with_type(unsigned int rows, unsigned int cols){
 	A->cols = cols;
 	A->elem = pole;
 	
-	if(A==NULL){
-		free(A);
-		free(pole);
-		return NULL;
-	}
 	return A;	
 }
 
@@ -145,7 +145,7 @@ void mat_random(MAT *mat){
 	int i,j;
 	for(i=0 ; i < mat->rows ; i++){
 		for(j=0 ; j < mat->cols ; j++){
-			ELEM(mat,i,j)=(rand() / 32767.0)*2.0 - 1.0;	
+			ELEM(mat,i,j)=(rand() / (float)RAND_MAX)*2.0 - 1.0;	
 		}
 	}
 
@@ -248,14 +248,10 @@ char mat_multiply_strassen(MAT *a, MAT *b, MAT *c){
 		MAT *p7 = mat_create_with_type(pol_velkost,pol_velkost);
 		mat_multiply_strassen(mat_sub(mat_quarter(a,1),mat_quarter(a,3)),mat_add(mat_quarter(b,1),mat_quarter(b,3)),p7);
 		
-		MAT *c1 = mat_create_with_type(pol_velkost,pol_velkost);		//finalne operacie podmatic
-		c1 = mat_add(mat_sub(mat_add(p5,p4),p2),p6);
-		MAT *c2 = mat_create_with_type(pol_velkost,pol_velkost);
-		c2 = mat_add(p1,p2);
-		MAT *c3 = mat_create_with_type(pol_velkost,pol_velkost);
-		c3 = mat_add(p3,p4);
-		MAT *c4 = mat_create_with_type(pol_velkost,pol_velkost);
-		c4 = mat_sub(mat_sub(mat_add(p1,p5),p3),p7);
+		MAT *c1 = mat_add(mat_sub(mat_add(p5,p4),p2),p6);		//finalne operacie podmatic
+		MAT *c2 = mat_add(p1,p2);
+		MAT *c3 = mat_add(p3,p4);
+		MAT *c4 = mat_sub(mat_sub(mat_add(p1,p5),p3),p7);
 	
 		mat_quad_join(c, c1,c2,c3,c4);			//spojenie podmatic
 		
