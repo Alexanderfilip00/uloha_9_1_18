@@ -272,7 +272,7 @@ char mat_multiply_strassen(MAT *a, MAT *b, MAT *c){
 
 //...............................................................................................
 
-int main(){
+/*int main(){
 	int a=4;			//nastavenie velkosti vsetkych matic, na testovacie ucely
 	srand(time(NULL));
 	MAT *A = mat_create_with_type(a,a);
@@ -289,4 +289,19 @@ int main(){
 	puts("");
 	mat_print(C);
 
+} */
+
+int main(){
+	int a=4;
+	srand(time(NULL));
+	MAT *A = mat_create_with_type(a,a);
+	mat_random(A);
+	puts("Povodna matica:");
+	mat_print(A);
+	
+	mat_save(A, "matica_A.bin");
+	MAT *B = mat_create_by_file("matica_A.bin");
+	puts("Precitana matica:");
+	mat_print(B);
+	
 }
