@@ -22,7 +22,6 @@ MAT *mat_create_with_type(unsigned int rows, unsigned int cols){
 	A = (MAT*)malloc(sizeof(MAT));
 	
 	if(A==NULL){
-		free(A);
 		return NULL;
 	}
 	
@@ -64,20 +63,20 @@ MAT *mat_create_by_file(char *filename){
 	unsigned int r,s;
 	int dlzka;
 	char typ[2]={0};
-	int FILE = open(filename,O_RDONLY | O_BINARY, S_IRUSR);
-	if( FILE < 0){
+	int stream = open(filename,O_RDONLY | O_BINARY, S_IRUSR);
+	if( stream < 0){
 		//printf("Subor neexistuje.");
 		return NULL;
 	}
 	
-	read(FILE, &typ, sizeof(char)*2);
+	read(stream, &typ, sizeof(char)*2);
 	if(typ[0] != 'M' || typ[1] != '1'){
 		//printf("\nCHYBA: Subor nereprezentuje hustu maticu.\n");
 		return NULL;
 	}
 
-	read(FILE, &r, sizeof(unsigned int));
-	read(FILE, &s, sizeof(unsigned int));
+	read(stream, &r, sizeof(unsigned int));
+	read(stream, &s, sizeof(unsigned int));
 
 	if(r==EOF || s==EOF){
 		//printf("\nCHYBA: Koniec suboru.\n");		
@@ -85,13 +84,16 @@ MAT *mat_create_by_file(char *filename){
 	}
 	MAT *A = mat_create_with_type(r,s);
 
-	dlzka = read(FILE, A->elem, sizeof(float)*r*s);
+	dlzka = read(stream, A->elem, sizeof(float)*r*s);
+	
 	if (dlzka != sizeof(float)*r*s){
 		//printf("\nCHYBA: Nedostatok hodnot.\n");
+		free(A);
+		free(A->elem);
 		return NULL;
 	}
 	
-	close(FILE);
+	close(stream);
 	return A;
 }
 
@@ -110,19 +112,25 @@ void mat_unit(MAT *mat){
 
 char mat_save(MAT *mat, char *filename){
 	
-	int FILE = open(filename, O_CREAT | O_TRUNC | O_WRONLY | O_BINARY, S_IRUSR | S_IWUSR);
-	if( FILE < 0){
+	int stream = open(filename, O_CREAT | O_TRUNC | O_WRONLY | O_BINARY, S_IRUSR | S_IWUSR);
+	if( stream < 0){
 		//printf("CHYBA: subor sa nepodarilo otvorit.");
 		return -1;
 	} 
+	
+	char M1[2];		//opravený kód
+	M1[0]='M';
+	M1[1]='1';
+	write(stream, &M1[0], sizeof(char));	
+	write(stream, &M1[1], sizeof(char));
 
-	write(FILE, "M", sizeof(char));
-	write(FILE, "1", sizeof(char));
+	//write(stream, "M", sizeof(char));		//nechám to tu, ak by ste to chceli otestova
+	//write(stream, "1", sizeof(char));
 
-	write(FILE, &mat->rows, sizeof(unsigned int));
-	write(FILE, &mat->cols, sizeof(unsigned int));
-	write(FILE, mat->elem, sizeof(float)*(mat->rows)*(mat->cols));
-	close(FILE);	
+	write(stream, &mat->rows, sizeof(unsigned int));
+	write(stream, &mat->cols, sizeof(unsigned int));
+	write(stream, mat->elem, sizeof(float)*(mat->rows)*(mat->cols));
+	close(stream);	
 }
 
 
