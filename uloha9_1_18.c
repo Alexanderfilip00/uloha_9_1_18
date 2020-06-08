@@ -15,6 +15,8 @@ typedef struct{
 	unsigned int cols;
 	float *elem;
 	}MAT;
+	
+void mat_destroy(MAT *mat);
 
 MAT *mat_create_with_type(unsigned int rows, unsigned int cols){
 	
@@ -88,8 +90,7 @@ MAT *mat_create_by_file(char *filename){
 	
 	if (dlzka != sizeof(float)*r*s){
 		//printf("\nCHYBA: Nedostatok hodnot.\n");
-		free(A);
-		free(A->elem);
+		mat_destroy(A);
 		return NULL;
 	}
 	
@@ -121,11 +122,11 @@ char mat_save(MAT *mat, char *filename){
 	char M1[2];		//opravený kód
 	M1[0]='M';
 	M1[1]='1';
-	write(stream, &M1[0], sizeof(char));	
-	write(stream, &M1[1], sizeof(char));
+	//write(stream, &M1[0], sizeof(char));	
+	//write(stream, &M1[1], sizeof(char));
 
-	//write(stream, "M", sizeof(char));		//nechám to tu, ak by ste to chceli otestova
-	//write(stream, "1", sizeof(char));
+	write(stream, "M", sizeof(char));		//nechám to tu, ak by ste to chceli otestova
+	write(stream, "1", sizeof(char));
 
 	write(stream, &mat->rows, sizeof(unsigned int));
 	write(stream, &mat->cols, sizeof(unsigned int));
@@ -307,8 +308,8 @@ int main(){
 	puts("Povodna matica:");
 	mat_print(A);
 	
-	mat_save(A, "matica_A.bin");
-	MAT *B = mat_create_by_file("matica_A.bin");
+	mat_save(A, "matica_B.bin");
+	MAT *B = mat_create_by_file("matica_B.bin");
 	puts("Precitana matica:");
 	mat_print(B);
 	
