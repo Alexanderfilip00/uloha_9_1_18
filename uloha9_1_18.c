@@ -5,18 +5,12 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#define ELEM(M,r,c) (M->elem[(M->cols)*r+c])
+
+#include "matice.h"
+
 #ifndef O_BINARY
 #define O_BINARY 0
 #endif
-
-typedef struct{
-	unsigned int rows;
-	unsigned int cols;
-	float *elem;
-	}MAT;
-	
-void mat_destroy(MAT *mat);
 
 MAT *mat_create_with_type(unsigned int rows, unsigned int cols){
 	
